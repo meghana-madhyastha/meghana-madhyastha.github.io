@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Meghana Madhyastha | LLM Inference & ML Systems Performance Engineer</title>
+<meta name="description" content="Meghana Madhyastha is a performance engineer working on LLM inference: KV-cache offloading (LMCache), prefix caching, multi-tenant GPU serving (kvcached), vLLM and SGLang optimization, and MoE performance on H200/B200/B300 GPUs. PhD, Johns Hopkins.">
+<meta name="author" content="Meghana Madhyastha">
+<meta name="keywords" content="Meghana Madhyastha, LLM inference engineer, inference systems, ML systems, performance engineer, vLLM, SGLang, LMCache, kvcached, KV cache, prefix caching, GPU, CUDA, model serving, MoE, Johns Hopkins">
+<link rel="canonical" href="https://meghana-madhyastha.github.io/">
+<meta property="og:type" content="profile">
+<meta property="og:title" content="Meghana Madhyastha | LLM Inference & ML Systems Performance Engineer">
+<meta property="og:description" content="Meghana Madhyastha is a performance engineer working on LLM inference: KV-cache offloading (LMCache), prefix caching, multi-tenant GPU serving (kvcached), vLLM and SGLang optimization, and MoE performance on H200/B200/B300 GPUs. PhD, Johns Hopkins.">
+<meta property="og:url" content="https://meghana-madhyastha.github.io/">
+<meta property="profile:first_name" content="Meghana">
+<meta property="profile:last_name" content="Madhyastha">
+<meta name="twitter:card" content="summary">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Person", "name": "Meghana Madhyastha", "url": "https://meghana-madhyastha.github.io/", "email": "mailto:meghana.madhyastha@gmail.com", "jobTitle": "Performance Engineer, LLM Inference", "worksFor": {"@type": "Organization", "name": "Parasail"}, "alumniOf": [{"@type": "CollegeOrUniversity", "name": "Johns Hopkins University"}, {"@type": "CollegeOrUniversity", "name": "International Institute of Information Technology Bangalore"}], "sameAs": ["https://github.com/meghana-madhyastha", "https://scholar.google.com/citations?user=n6J0ACAAAAAJ"], "knowsAbout": ["LLM inference", "Large language model serving", "ML systems", "KV cache", "KV cache offloading", "Prefix caching", "vLLM", "SGLang", "LMCache", "GPU performance engineering", "CUDA", "Mixture of experts", "Model serving infrastructure", "Kubernetes GPU scheduling"]}</script>
+<style>:root{color-scheme:light dark} body{margin:0} img{max-width:100%}</style>
+</head>
+<body>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600;700;800&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: one 46rem reading column; a mono "serving stack" strip as the signature detail; work grouped by inference layer. */
+:root {
+  --bg: #f6f7f9;
+  --surface: #ffffff;
+  --ink: #141a24;
+  --muted: #566173;
+  --line: #dde2ea;
+  --accent: #1f4fd1;
+  --accent-soft: #e7edfc;
+  --display: "Schibsted Grotesk", "Helvetica Neue", Arial, sans-serif;
+  --body: "Source Serif 4", Georgia, "Times New Roman", serif;
+  --mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0f131a; --surface: #161b24; --ink: #e6eaf1; --muted: #9aa5b6;
+    --line: #262e3b; --accent: #8fb0ff; --accent-soft: #1b2640; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0f131a; --surface: #161b24; --ink: #e6eaf1; --muted: #9aa5b6;
+  --line: #262e3b; --accent: #8fb0ff; --accent-soft: #1b2640; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font: 1.0625rem/1.65 var(--body); }
+.wrap { max-width: 46rem; margin: 0 auto; padding-inline: 1.25rem; padding-block: 3.5rem 4rem; display: flex; flex-direction: column; gap: 3.25rem; }
+a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+a:hover { text-decoration-thickness: 2px; }
+a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 2px; }
+h1, h2, h3 { font-family: var(--display); text-wrap: balance; margin: 0; }
+h1 { font-size: clamp(2.2rem, 6vw, 3.1rem); line-height: 1.05; font-weight: 800; letter-spacing: -0.025em; }
+h2 { font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: var(--muted); padding-bottom: 0.6rem; border-bottom: 1px solid var(--line); }
+h3 { font-size: 1.12rem; font-weight: 700; line-height: 1.3; }
+p { margin: 0; }
+section { display: flex; flex-direction: column; gap: 1.25rem; }
+
+header { display: flex; flex-direction: column; gap: 1.1rem; }
+.role { font-family: var(--display); font-size: 1.2rem; font-weight: 500; color: var(--muted); line-height: 1.4; }
+.role strong { color: var(--ink); font-weight: 600; }
+.lede { max-width: 38rem; }
+.links { display: flex; flex-wrap: wrap; gap: 0.5rem 1.25rem; font-family: var(--display); font-weight: 600; font-size: 0.95rem; }
+.contact { font-family: var(--display); font-size: 0.95rem; color: var(--muted); }
+.stack { font-family: var(--mono); font-size: 0.78rem; color: var(--muted); border: 1px solid var(--line); background: var(--surface); border-radius: 6px; padding: 0.7rem 0.9rem; overflow-x: auto; white-space: nowrap; }
+.stack b { color: var(--accent); font-weight: 500; }
+
+.work { display: grid; gap: 1.6rem; }
+.item { display: grid; grid-template-columns: 8.5rem 1fr; gap: 0.25rem 1.25rem; }
+.item > * { min-width: 0; }
+.tag { font-family: var(--mono); font-size: 0.74rem; color: var(--accent); padding-top: 0.25rem; text-transform: lowercase; }
+.item p { color: var(--ink); }
+.item .meta { font-family: var(--mono); font-size: 0.78rem; color: var(--muted); }
+.num { font-family: var(--mono); font-size: 0.92em; background: var(--accent-soft); color: var(--ink); padding: 0.05em 0.35em; border-radius: 3px; font-variant-numeric: tabular-nums; white-space: nowrap; }
+
+.pubs { list-style: none; margin: 0; padding: 0; display: grid; gap: 1rem; }
+.pubs li { display: grid; grid-template-columns: 3.2rem 1fr; gap: 1rem; }
+.pubs li > * { min-width: 0; }
+.yr { font-family: var(--mono); font-size: 0.8rem; color: var(--muted); padding-top: 0.2rem; font-variant-numeric: tabular-nums; }
+.pt { font-family: var(--display); font-weight: 600; font-size: 1rem; line-height: 1.35; }
+.pa { font-size: 0.93rem; color: var(--muted); }
+.pa b { color: var(--ink); font-weight: 600; }
+.venue { font-family: var(--mono); font-size: 0.74rem; color: var(--accent); }
+.inf { font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.04em; text-transform: uppercase; border: 1px solid var(--accent); color: var(--accent); border-radius: 3px; padding: 0 0.3em; margin-left: 0.4em; vertical-align: 0.1em; }
+
+.timeline { display: grid; gap: 0.6rem; }
+.timeline div { display: grid; grid-template-columns: 9.5rem 1fr; gap: 1.25rem; }
+.timeline span:first-child { font-family: var(--mono); font-size: 0.8rem; color: var(--muted); padding-top: 0.15rem; font-variant-numeric: tabular-nums; }
+.skills { display: flex; flex-wrap: wrap; gap: 0.45rem; list-style: none; margin: 0; padding: 0; }
+.skills li { font-family: var(--mono); font-size: 0.78rem; border: 1px solid var(--line); background: var(--surface); padding: 0.2rem 0.55rem; border-radius: 4px; }
+footer { font-family: var(--display); font-size: 0.85rem; color: var(--muted); border-top: 1px solid var(--line); padding-top: 1.25rem; }
+
+@media (max-width: 560px) {
+  .item, .timeline div { grid-template-columns: 1fr; gap: 0.2rem; }
+  .pubs li { grid-template-columns: 1fr; gap: 0.1rem; }
+  .wrap { padding-block: 2.25rem 3rem; gap: 2.5rem; }
+}
+</style>
+
+<main class="wrap" itemscope itemtype="https://schema.org/Person">
+  <header>
+    <h1 itemprop="name">Meghana Madhyastha</h1>
+    <p class="role"><strong itemprop="jobTitle">Performance Engineer, LLM Inference</strong> at <span itemprop="worksFor">Parasail</span> · PhD in Computer Science, Johns Hopkins University</p>
+    <p class="lede" itemprop="description">I make large language models cheaper and faster to serve. My work covers the inference stack from the GPU up: KV-cache management and offloading, prefix caching, multi-tenant GPU sharing, and model cold-start on H200, B200 and B300 GPUs. My PhD research was on I/O and data-movement bottlenecks in machine learning systems.</p>
+    <nav class="links" aria-label="Profiles">
+      <a href="https://github.com/meghana-madhyastha" itemprop="sameAs">GitHub</a>
+      <a href="https://scholar.google.com/citations?user=n6J0ACAAAAAJ" itemprop="sameAs">Google Scholar</a>
+      <a href="resume.html">Resume</a>
+    </nav>
+    <p class="contact">Contact: <a href="mailto:meghana.madhyastha@gmail.com" itemprop="email">meghana.madhyastha@gmail.com</a></p>
+    <div class="stack" aria-label="Systems I work on">serving stack › <b>vLLM</b> · <b>SGLang</b> · <b>LMCache</b> · <b>kvcached</b> · FlashInfer · CUDA graphs · Kubernetes · H200 / B200 / B300</div>
+  </header>
+
+  <section aria-labelledby="h-edu">
+    <h2 id="h-edu">Education</h2>
+    <div class="timeline">
+      <div><span>2018 – 2024</span><span><strong>Johns Hopkins University</strong>, PhD in Computer Science. Advised by Randal Burns and Joshua Vogelstein. Research on I/O and data-movement bottlenecks in ML systems.</span></div>
+      <div><span>2013 – 2018</span><span><strong>International Institute of Information Technology Bangalore</strong> (IIIT Bangalore), BS + MS. Master’s thesis advisor: Manish Gupta.</span></div>
+    </div>
+  </section>
+
+  <section aria-labelledby="h-exp">
+    <h2 id="h-exp">Experience</h2>
+    <div class="timeline">
+      <div><span>Feb 2026 – now</span><span><strong>Parasail</strong>, Performance Engineer (LLM inference)</span></div>
+      <div><span>Dec 2024 – Feb 2026</span><span><strong>Meta FAIR</strong>, Researcher (efficient LLM pre-training: activation sparsity, hybrid architecture search)</span></div>
+      <div><span>Summer 2022</span><span><strong>Argonne National Laboratory</strong>, Research Intern (model storage for HPC)</span></div>
+      <div><span>Summer 2021</span><span><strong>Meta</strong>, Machine Learning Intern</span></div>
+      <div><span>Summer 2018</span><span><strong>CERN</strong>, Intern (Google Summer of Code, SixTrackLib)</span></div>
+      <div><span>Summer 2017</span><span><strong>INRIA</strong>, Research Intern, Parietal lab</span></div>
+    </div>
+  </section>
+
+  <section aria-labelledby="h-work">
+    <h2 id="h-work">LLM inference work at Parasail</h2>
+    <div class="work">
+      <article class="item">
+        <span class="tag">cold start</span>
+        <div>
+          <h3>Model cold-start and loading</h3>
+          <p>Cut LLM engine startup time across the fleet. Combined fastsafetensors, O_DIRECT and io_uring so cold and warm starts are both fast on the same stack, and restored vLLM replicas from GPU and CPU snapshots (cuda-checkpoint and CRIU) instead of starting cold, which made startup up to <span class="num">20×</span> faster. Also rolled out the InstantTensor loader across vLLM and SGLang (<span class="num">1.5–4.3×</span> faster loading) and traced a <span class="num">293 s → 907 s</span> startup regression to a stale FlashInfer autotuning cache.</p>
+          <p class="meta">Blog: <a href="https://www.parasail.io/blog/making-cold-start-latencies-go-brrrr-a-multi-pronged-approach">Making Cold Start Latencies go Brrrr (Part 1)</a> · <a href="https://www.parasail.io/blog/cutting-cold-start-latency-snapshotting">Faster autoscaling for vLLM: restoring from snapshots</a></p>
+        </div>
+      </article>
+      <article class="item">
+        <span class="tag">kv cache · offload</span>
+        <div>
+          <h3>Tiered KV-cache offloading with LMCache</h3>
+          <p>Took CPU-memory KV-cache offloading in vLLM to production for a trillion-parameter MLA model and for hybrid attention/Mamba models. The offload tier gives a <span class="num">15×</span> larger prefix-cache pool than GPU memory alone. Found and fixed a KV reload corruption bug for MLA layouts, and built a prefix-cache tracing pipeline to measure reuse and size each cache tier.</p>
+        </div>
+      </article>
+      <article class="item">
+        <span class="tag">gpu sharing</span>
+        <div>
+          <h3>Multi-tenant LLM serving with elastic KV cache</h3>
+          <p>Built the production layer for kvcached-based GPU sharing, so many models share one GPU host with virtualized, elastic KV-cache memory. This included a Kubernetes device plugin and node agent, plus weight-aware and margin-aware placement. Packed <span class="num">16 models onto 5 shared hosts</span> in production.</p>
+        </div>
+      </article>
+      <article class="item">
+        <span class="tag">open source</span>
+        <div>
+          <h3>Open-source contributions</h3>
+          <p>Contributed upstream to <a href="https://github.com/LMCache/LMCache">LMCache</a> and <a href="https://github.com/scitix/InstantTensor">InstantTensor</a>. Also maintain patches to <a href="https://github.com/vllm-project/vllm">vLLM</a>, <a href="https://github.com/sgl-project/sglang">SGLang</a> and <a href="https://github.com/ovg-project/kvcached">kvcached</a>, including prefix caching for hybrid models, KV layouts for MLA, and loader and startup fixes.</p>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section aria-labelledby="h-pubs">
+    <h2 id="h-pubs">Selected publications</h2>
+    <ol class="pubs">
+      <li><span class="yr">2026</span><div><a class="pt" href="https://arxiv.org/abs/2606.21238">Recency/Frequency Adaptive KV Caching for Large Language Model Serving</a><span class="inf">inference</span><p class="pa">Y. Shen, <b>M. Madhyastha</b>, R. Underwood, B. Nicolae, R. Burns</p><span class="venue">ICLR Workshop on AdaptFM · <a href="https://arxiv.org/abs/2606.21238">arXiv</a></span></div></li>
+      <li><span class="yr">2026</span><div><a class="pt" href="https://arxiv.org/abs/2602.06183">To 2:4 Sparsity and Beyond: Neuron-level Activation Functions to Accelerate LLM Pre-Training</a><p class="pa"><b>M. Madhyastha</b>, D. Haziza, J. Cai, N. Ardalani, Z. Bu, C.-J. Wu</p><span class="venue">arXiv preprint</span></div></li>
+      <li><span class="yr">2026</span><div><a class="pt" href="https://doi.org/10.1145/3805621.3807615">On Harnessing Idle Compute at the Edge for Foundation Model Training</a><p class="pa">L. Xue, <b>M. Madhyastha</b>, M. Lee, A. Storkey, R. Burns, M. K. Marina</p><span class="venue">EuroMLSys 2026 (EuroSys workshop)</span></div></li>
+      <li><span class="yr">2026</span><div><a class="pt" href="https://arxiv.org/abs/2510.00379">Composer: A Search Framework for Hybrid Neural Architecture Design</a><p class="pa">B. Acun, P. Sinha, N. Ardalani, S. Bae, A. Golden, C.-Y. Lin, <b>M. Madhyastha</b>, F. Sun, N. J. Yadwadkar, C.-J. Wu</p><span class="venue">ICLR 2026 · <a href="https://arxiv.org/abs/2510.00379">arXiv</a></span></div></li>
+      <li><span class="yr">2025</span><div><a class="pt" href="https://doi.org/10.1145/3757892.3757895">Towards Decentralized and Sustainable Foundation Model Training with the Edge</a><p class="pa">L. Xue, <b>M. Madhyastha</b>, R. Burns, M. Lee, M. K. Marina</p><span class="venue">ACM SIGEnergy Energy Informatics Review · MobiCom 2025</span></div></li>
+      <li><span class="yr">2024</span><div><a class="pt" href="https://doi.org/10.1145/3625549.3658679">EvoStore: Towards Scalable Storage of Evolving Learning Models</a><p class="pa">R. Underwood, <b>M. Madhyastha</b>, R. Burns, B. Nicolae</p><span class="venue">HPDC 2024</span></div></li>
+      <li><span class="yr">2024</span><div><a class="pt" href="https://doi.org/10.1109/ICDE60146.2024.00145">T-Rex (Tree-Rectangles): Reformulating Decision Tree Traversal as Hyperrectangle Enclosure</a><span class="inf">inference</span><p class="pa"><b>M. Madhyastha</b>, T. Budavári, V. Braverman, J. Vogelstein, R. Burns</p><span class="venue">ICDE 2024</span></div></li>
+      <li><span class="yr">2024</span><div><a class="pt" href="https://arxiv.org/abs/2402.14118">Masked Matrix Multiplication for Emergent Sparsity</a><p class="pa">B. Wheatman, <b>M. Madhyastha</b>, R. Burns</p><span class="venue">arXiv preprint</span></div></li>
+      <li><span class="yr">2023</span><div><a class="pt" href="https://doi.org/10.1145/3577193.3593730">DStore: A Lightweight Scalable Learning Model Repository with Fine-Grain Tensor-Level Access</a><p class="pa"><b>M. Madhyastha</b>, R. Underwood, R. Burns, B. Nicolae</p><span class="venue">ICS 2023</span></div></li>
+      <li><span class="yr">2023</span><div><a class="pt" href="https://doi.org/10.1109/HiPC58850.2023.00025">Understanding Patterns of Deep Learning Model Evolution in Network Architecture Search</a><p class="pa">R. Underwood, <b>M. Madhyastha</b>, R. Burns, B. Nicolae</p><span class="venue">HiPC 2023</span></div></li>
+      <li><span class="yr">2021</span><div><a class="pt" href="https://doi.org/10.1145/3447548.3467368">BLOCKSET: Block-Aligned Serialized Trees for Reducing Inference Latency in Tree-Ensemble Deployment</a><span class="inf">inference</span><p class="pa"><b>M. Madhyastha</b>, K. Lillaney, J. Browne, J. Vogelstein, R. Burns</p><span class="venue">KDD 2021 · <a href="https://github.com/meghana-madhyastha/blockset">code</a></span></div></li>
+      <li><span class="yr">2020</span><div><a class="pt" href="https://doi.org/10.1145/3394486.3403094">Geodesic Forests</a><p class="pa"><b>M. Madhyastha</b>, G. Li, V. Strnadová-Neeley, J. Browne, J. Vogelstein, R. Burns, C. Priebe</p><span class="venue">KDD 2020</span></div></li>
+      <li><span class="yr">2019</span><div><a class="pt" href="https://doi.org/10.1609/aaai.v33i01.33019589">Inferring Concept Prerequisite Relations from Online Educational Resources</a><p class="pa">S. Roy, <b>M. Madhyastha</b>, S. Lawrence, V. Rajan</p><span class="venue">AAAI / IAAI 2019</span></div></li>
+    </ol>
+    <p class="pa">Full list on <a href="https://scholar.google.com/citations?user=n6J0ACAAAAAJ">Google Scholar</a>.</p>
+  </section>
+
+
+  <section aria-labelledby="h-skills">
+    <h2 id="h-skills">Areas</h2>
+    <ul class="skills">
+      <li>LLM inference</li><li>model serving</li><li>KV-cache offloading</li><li>prefix caching</li><li>vLLM</li><li>SGLang</li><li>LMCache</li><li>GPU performance</li><li>CUDA</li><li>mixture-of-experts</li><li>Kubernetes GPU scheduling</li><li>sparsity</li><li>HPC I/O</li><li>C++</li><li>Python</li>
+    </ul>
+  </section>
+
+  <footer>Meghana Madhyastha · ML systems and LLM inference · meghana.madhyastha@gmail.com</footer>
+</main>
+
+</body>
+</html>
